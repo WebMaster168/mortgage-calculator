@@ -1,5 +1,8 @@
 let data = {
     selectedProgram: 0.1,
+    cost: 1200000,
+    minPrice: 375000,
+    maxPrice: 100000000,
     programs: {
         base: 0.1,
         it: 0.047,
@@ -8,17 +11,39 @@ let data = {
     }
 }
 
+let results = {
+    rate: data.selectedProgram
+}
+
 function getData(){
     return {...data}
 }
 
+function getResults(){
+    return {...results}
+}
+
 function setData(newData){
+
+    if(newData.onUpdate === 'inputCost'){
+        if(newData.cost < data.minPrice){
+            newData.cost = data.minPrice
+        }
+        if(newData.cost > data.maxPrice){
+            newData.cost = data.maxPrice
+        }
+    }
     data = {
         ...data,
         ...newData
     }
 
+    results = {
+        rate: data.selectedProgram
+    }
+    
     console.log(data)
 }
 
-export {getData, setData}
+
+export {getData, setData, getResults}
