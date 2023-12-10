@@ -49,6 +49,8 @@ function init(getData){
         })
         
     })
+
+    return cleaveInput
 }
 
 export default init
