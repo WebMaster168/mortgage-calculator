@@ -1,19 +1,16 @@
 import updateModel from "./../utils/updateModel.js"
 
 function init(getData){
-    const slider = document.querySelector('#slider-cost')
-    const data = getData()
-
+    const slider = document.querySelector('#slider-downpayment')
+ 
     noUiSlider.create(slider, {
-        start: data.cost,
+        start: getData().paymentPercents * 100,
         connect: 'lower',
         //tooltips: true,
-        step: 100000,
+        step: 1,
         range: {
-            min: data.minPrice,
-            '1%': [400000, 100000],
-            '50%': [10000000, 500000],
-            max: data.maxPrice
+            min: getData().minPaymentPercents * 100,
+            max: getData().maxPaymentPercents * 100
         },
         format: wNumb({
             decinals: 0,
@@ -25,9 +22,11 @@ function init(getData){
     slider.noUiSlider.on('slide', function(){
         let sliderValue = slider.noUiSlider.get()
         sliderValue = sliderValue.split('.')[0]
-        sliderValue = Math.ceil(String(sliderValue).replace(/ /g, '') / 1000) * 1000
+        //sliderValue = Math.ceil(String(sliderValue).replace(/ /g, '') / 1000) * 1000
+        sliderValue = parseInt(String(sliderValue).replace(/ /g, ''))
+        
         updateModel(slider, {
-            cost: sliderValue, onUpdate: 'costSlider'
+            paymentPercents: sliderValue, onUpdate: 'paymentSlider'
         })
     })
 
